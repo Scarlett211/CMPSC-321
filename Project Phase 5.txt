@@ -1,0 +1,116 @@
+Define five queries (SQL SELECT statements) that make sense and are interesting in your database.
+
+Explain the meaning of the query in English—what the results mean and what they might be useful for.
+Write the SELECT statement for the query.
+Run the query in PhpMiniAdmin and copy the result.
+At least three of the queries must involve multiple tables.
+Create a Word or other document that contains all three parts for all five queries. Each query is worth 10pts.
+
+1. This query grabs all Classes that can use Tomes
+
+SQL: 
+SELECT DISTINCT (Class_Name)
+	FROM uses JOIN weapon ON (uses.Weapon_ID=weapon.Weapon_ID)
+    	WHERE type = 'Tome'
+
+Out: 
+Class_Name	
+Dark Mage	
+Mage	
+Tactician	
+Witch	
+
+2. This query grabs the name of all characters with a legendary weapon and grabs the weapons name.
+
+SQL:
+SELECT Character_Name AS Name, Name AS Weapon
+	FROM weapon
+		WHERE Legendary = 'Y'
+Out:
+Name	Weapon	
+Chrom	Falchion	
+Lucina	Parallel Falchion	
+
+3. This gets all charcters wth there class that can use swords.
+
+SQL:
+SELECT DISTINCT characters.Name, characters.Class_Name
+	FROM characters JOIN class ON (characters.Class_Name=class.Class_Name)
+    	JOIN uses ON (class.Class_Name=uses.Class_Name)
+        	JOIN weapon ON (uses.Weapon_ID=weapon.Weapon_ID)
+            	WHERE Type="Sword"
+
+Out:
+Name		Class_Name	
+Frederick	Great Knight	
+Chrom		Lord	
+Lucina		Lord	
+Robin		Tactician
+
+4. Gets all characters with a stat total over 40 and displays there stat total and name
+
+SQL:
+SELECT Name, Strength + Magic + Dexterity + Speed + Defense + Resistance + Luck AS Stat_Total
+	FROM stats
+    		WHERE Strength + Magic + Dexterity + Speed + Defense + Resistance + Luck > 40;
+
+Out:
+Name		Stat_Total	
+Frederick	60	
+Tharja		52	
+
+5. This gets the weapon ID, name, type, and range or all weapons Robin can use and orders them by range
+
+SQL:
+SELECT weapon.Weapon_ID, weapon.Name, Type, Attack_Range
+	FROM weapon JOIN uses ON (weapon.Weapon_ID=uses.Weapon_ID)
+    	JOIN class ON (uses.Class_Name=class.Class_Name)
+        	JOIN characters ON (class.Class_Name=characters.Class_Name)
+            	WHERE characters.Name = 'Robin'
+                	ORDER BY Attack_Range
+
+Out:
+Weapon_ID	Name		Type	Attack_Range   	
+2		Bronze Sword	Sword	1	
+4		Rapier		Sword	1	
+11		Nosferatu	Tome	1	
+1		Thunder		Tome	2	
+8		Fire		Tome	2	
+10		Elthunder	Tome	2	
+
+6. 
+I struggled to do this one then figured it out right after the last one so I still wanted to add it. (The issue was that I was using GROUP BY)
+
+This list every weapon each character can use with the type anc range ordered by then characters name.
+SQL: 
+SELECT characters.Name, weapon.Name, Type, Attack_Range
+	FROM weapon JOIN uses ON (weapon.Weapon_ID=uses.Weapon_ID)
+    	JOIN class ON (uses.Class_Name=class.Class_Name)
+        	JOIN characters ON (class.Class_Name=characters.Class_Name)
+                	ORDER BY characters.Name;
+
+Out:
+Name   		Name		Type	Attack_Range	
+Chrom		Bronze Sword	Sword	1	
+Chrom		Rapier		Sword	1	
+Frederick	Bronze Sword	Sword	1	
+Frederick	Rapier		Sword	1	
+Frederick	Silver Lance	Lance	1	
+Frederick	Iron Axe	Axe	1	
+Lucina		Bronze Sword	Sword	1	
+Lucina		Rapier		Sword	1	
+Miriel		Thunder		Tome	2	
+Miriel		Fire		Tome	2	
+Miriel		Elthunder	Tome	2	
+Miriel		Nosferatu	Tome	1	
+Robin		Thunder		Tome	2	
+Robin		Bronze Sword	Sword	1	
+Robin		Rapier		Sword	1	
+Robin		Fire		Tome	2	
+Robin		Elthunder	Tome	2	
+Robin		Nosferatu	Tome	1	
+Tharja		Thunder		Tome	2	
+Tharja		Fire		Tome	2	
+Tharja		Elthunder	Tome	2	
+Tharja		Nosferatu	Tome	1	
+Virion		Iron Bow	Bow	2	

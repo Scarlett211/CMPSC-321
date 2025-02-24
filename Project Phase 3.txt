@@ -1,0 +1,49 @@
+CREATE TABLE Character (
+  Skills CHAR NOT NULL,
+  Gender CHAR NOT NULL,
+  Character_ID CHAR NOT NULL,
+  Stat_Rating INT NOT NULL,
+  Class_Name CHAR NOT NULL,
+  Legendary_Weapon INT,
+  PRIMARY KEY (Character_ID),
+  FOREIGN KEY (Class_Name) REFERENCES Class(Class_Name),
+  FOREIGN KEY (Legendary_Weapon) REFERENCES Weapon(Weapon_ID)
+);
+
+CREATE TABLE Class
+(
+  Class_Name CHAR NOT NULL,
+  Stat_Boosts CHAR NOT NULL,
+  Skills CHAR NOT NULL,
+  Specific_Gender CHAR,
+  Movement INT NOT NULL,
+  Weapon_type INT NOT NULL,
+  PRIMARY KEY (Class_Name),
+  FOREIGN KEY (Weapon_type) REFERENCES Weapon(Weapon_ID)
+);
+
+CREATE TABLE Weapon
+(
+  Attack_Range INT NOT NULL,
+  Advantage INT,
+  Legendary_or_Not  NOT NULL,
+  Weakness CHAR NOT NULL,
+  Weapon_ID INT NOT NULL,
+  Class_Name CHAR NOT NULL,
+  PRIMARY KEY (Weapon_ID),
+  FOREIGN KEY (Class_Name) REFERENCES Class(Class_Name)
+);
+
+CREATE TABLE Stats
+(
+  Strength INT NOT NULL,
+  Magic INT NOT NULL,
+  Dexterity INT NOT NULL,
+  Speed INT NOT NULL,
+  Defense INT NOT NULL,
+  Resistance INT NOT NULL,
+  Luck INT NOT NULL,
+  Character_ID CHAR NOT NULL,
+  PRIMARY KEY (Character_ID),
+  FOREIGN KEY (Character_ID) REFERENCES Character(Character_ID)
+);
