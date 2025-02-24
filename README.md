@@ -1,1 +1,1 @@
-# CMPSC-321
+# CMPSC-321-Relational-Dbase-Theo-Design
